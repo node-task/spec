@@ -1,0 +1,21 @@
+{
+  "name": "task",
+  "description": "A standard task generator.",
+  "version": "0.1.0",
+  "author": "Tyler Kellen",
+  "homepage": "http://tkellen.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tkellen/node-task.git"
+  },
+  "bugs": {
+    "url": "http://github.com/tkellen/node-task/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/tkellen/node-task/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "lib/task"
+}
