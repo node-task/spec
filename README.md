@@ -23,7 +23,7 @@ module.exports = Task.create(task);
 ```
 
 ### Compiling Stylus (async)
-```
+```js
 'use strict';
 
 var Task = require('../lib/task');
