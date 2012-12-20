@@ -17,5 +17,20 @@
       "url": "http://github.com/tkellen/node-task/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "lib/task"
+  "main": "lib/task",
+  "dependencies": {
+    "eventemitter2": "~0.4.11",
+    "ensure-array": "~0.0.5",
+    "grunt": "~0.4.0",
+    "lodash": "~1.0.0",
+    "when": "~1.7.1",
+    "stylus": "~0.31.0",
+    "coffee-script": "~1.3.3"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-jshint": "~0.1.0",
+    "grunt-contrib-nodeunit": "~0.1.0",
+    "grunt-contrib-watch": "~0.1.0"
+  }
 }
