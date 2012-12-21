@@ -14,6 +14,7 @@ var task = {};
 
 task.name = 'concat';
 task.description = 'Concatenate files.';
+task.type = Task.FILEWRITER;
 
 // Return the given source cude with any leading banner comment stripped.
 task.stripBanner = function(src, options) {
@@ -50,7 +51,7 @@ task.parseConfig = function (config) {
   return config;
 };
 
-task.filterWrite = function(input, dest, config) {
+task.filterWrite = function(config, input, filepath) {
   var options = config.options;
   if (options.stripBanners) {
     input = input.map(function(src) {

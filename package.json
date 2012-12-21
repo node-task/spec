@@ -25,7 +25,8 @@
     "lodash": "~1.0.0",
     "when": "~1.7.1",
     "stylus": "~0.31.0",
-    "coffee-script": "~1.3.3"
+    "coffee-script": "~1.3.3",
+    "jshint": "~0.9.0"
   },
   "devDependencies": {
     "grunt": "~0.4.0",

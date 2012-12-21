@@ -8,7 +8,7 @@ exports.stylus = {
     test.expect(1);
     stylus.run({
       files: {
-        'tmp/stylus_default': ['test/fixtures/stylus.css']
+        'tmp/stylus_default': ['test/fixtures/stylus.styl']
       }
     });
     test.ok(true, 'whatever');

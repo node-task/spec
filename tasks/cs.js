@@ -14,8 +14,9 @@ var task = {};
 
 task.name = 'coffeescript';
 task.description = 'Compile JS to CS.';
+task.type = Task.FILEWRITER;
 
-task.filterRead = function(input, filepath, config) {
+task.filterRead = function(config, input, filepath) {
   return cs.compile(input, config.options);
 };
 

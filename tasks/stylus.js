@@ -14,8 +14,9 @@ var task = {};
 
 task.name = 'stylus';
 task.description = 'Compile Stylus files to CSS.';
+task.type = Task.FILEWRITER;
 
-task.filterRead = function(input, filepath, config) {
+task.filterRead = function(config, input, filepath) {
   var s = stylus(input);
   var defer = Task.defer();
   s.render(function(err, css) {
