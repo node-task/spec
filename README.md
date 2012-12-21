@@ -17,7 +17,7 @@ task.description = 'Compile JS to CS.';
 task.type = Task.FILEWRITER;
 
 task.filterRead = function(config, input, filepath) {
-  return cs.compile(config, config.options);
+  return cs.compile(input, config.options);
 };
 
 module.exports = Task.create(task);
