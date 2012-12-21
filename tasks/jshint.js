@@ -36,7 +36,7 @@ task.processConfig = function (config) {
   return config;
 };
 
-task.filterRead = function (config, content, filepath) {
+task.filterRead = function (config, input, filepath) {
   return true;
 };
 
