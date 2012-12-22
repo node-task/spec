@@ -68,5 +68,23 @@ task.filterRead = function(config, input, filepath) {
 module.exports = Task.create(task);
 ```
 
+### Arbitrary Tasks
+```js
+'use strict';
+
+var Task = require('../lib/task');
+
+var task = {};
+
+task.name = 'whatever';
+task.description = 'Echos your config back to you.';
+task.type = Task.FILEREADER;
+task.method = function (config) {
+  console.log(config);
+};
+
+module.exports = Task.create(task);
+```
+
 ---
 Copyright (c) 2012 Tyler Kellen. See LICENSE for further details.
