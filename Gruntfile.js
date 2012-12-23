@@ -20,8 +20,8 @@ module.exports = function(grunt) {
         jshintrc: '.jshintrc'
       }
     },
-    nodeunit: {
-      tests: ['test/*_test.js']
+    clean: {
+      tmp: ['tmp']
     },
     watch: {
       files: [
@@ -32,12 +32,27 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('mocha', function () {
+    var done = this.async();
+    grunt.util.spawn({
+      cmd: './node_modules/.bin/mocha',
+      args: ['--compilers','coffee:coffee-script']
+    }, function (err, result) {
+      if (err) {
+        grunt.verbose.error();
+        done(err);
+        return;
+      }
+      grunt.log.writeln(result.stdout);
+      done();
+    });
+  });
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.registerTask('test', ['nodeunit']);
+  grunt.registerTask('test', ['clean', 'jshint', 'mocha']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'nodeunit']);
+  grunt.registerTask('default', ['test']);
 
 };

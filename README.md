@@ -78,7 +78,6 @@ var task = {};
 
 task.name = 'whatever';
 task.description = 'Echos your config back to you.';
-task.type = Task.FILEREADER;
 task.method = function (config) {
   console.log(config);
 };
