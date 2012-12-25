@@ -33,6 +33,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('mocha', function () {
+    console.log(this.flag('dry-run'));
     var done = this.async();
     grunt.util.spawn({
       cmd: './node_modules/.bin/mocha',

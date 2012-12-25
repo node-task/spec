@@ -14,7 +14,7 @@ var task = {};
 
 task.name = 'coffeescript';
 task.description = 'Compile JS to CS.';
-task.type = Task.FILEWRITER;
+task.type = 'filewriter';
 
 task.filterRead = function(config, input, filepath) {
   return cs.compile(input, config.options);
@@ -34,7 +34,7 @@ var task = {};
 
 task.name = 'stylus';
 task.description = 'Compile Stylus to CSS.';
-task.type = Task.FILEWRITER;
+task.type = 'filewriter';
 
 task.filterRead = function(config, input, filepath) {
   var s = stylus(input);
@@ -59,7 +59,7 @@ var task = {};
 
 task.name = 'jshint';
 task.description = 'Validate files with JSHint.';
-task.type = Task.FILEREADER;
+task.type = 'filereader';
 
 task.filterRead = function(config, input, filepath) {
   // jshint(input .....
