@@ -152,7 +152,7 @@ task.run({
 ## run
 `task.run(config)`
 
-Execute a task.  If using this package to generate a node-task compliant module, `run` is already defined (please use [`method`](#method-%E2%8A%84)) for custom handling).  If the completion of this method is asynchronous, a promise must be returned.
+Execute a task.  If using this package to generate a node-task compliant module, `run` is already defined (please use [`method`](#method-%E2%8A%84) for custom handling).  If the completion of this method is asynchronous, a promise must be returned.
 
 **Example:**
 ```js
@@ -164,9 +164,9 @@ module.exports = {
   run: function (config) {
     this.emitter.emit('parseConfig', config);
     config = this.parseConfig(config);
-    this.emitter.emit('setup', config);
-    // do stuff here
-    this.emitter.emit('teardown', config);
+    // do setup, emitting events and handling promise if completion is async
+    // do task operation here, handle promise if completion is async
+    // do teardown here, returning promise if completion is async
   }
 };
 ```
