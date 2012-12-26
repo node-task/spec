@@ -11,19 +11,19 @@ describe 'Task', ->
   task = null
 
   describe 'constants', ->
-    it 'should have a filter writer constant', ->
+    it 'should have a file writer type', ->
       expect(Task.FILEWRITER).to.exist
 
-    it 'should have a file reader constant', ->
+    it 'should have a file reader type', ->
       expect(Task.FILEREADER).to.exist
 
-    it 'should have a file iterator constant', ->
+    it 'should have a file iterator type', ->
       expect(Task.FILEITERATOR).to.exist
 
     it 'should provide the when module', ->
       expect(Task.when).to.equal(require('when'))
 
-    it 'should provide access to a deferred implementation', ->
+    it 'should provide easy access to when\'s deferred implementation', ->
       expect(Task.defer).to.equal(require('when').defer)
 
 
@@ -47,9 +47,9 @@ describe 'Task', ->
     beforeEach ->
       task = Task.create()
 
-    describe 'events', ->
+    describe 'event', ->
       describe 'readFile', ->
-        it 'should be emitted before calling #readFile', ->
+        it 'should be emitted', ->
           emitted = false
           task.emitter.on 'readFile', ->
             emitted = true
@@ -57,7 +57,6 @@ describe 'Task', ->
           expect(emitted).to.be.true
 
         it 'should emit same arguments as #readFile takes', ->
-          args = undefined
           args = null
           task.emitter.on 'readFile', ->
             args = arguments
@@ -75,9 +74,9 @@ describe 'Task', ->
     beforeEach ->
       task = Task.create()
 
-    describe 'events', ->
+    describe 'event', ->
       describe 'writeFile', ->
-        it 'should be emitted before calling #writeFile', ->
+        it 'should be emitted', ->
           emitted = false
           task.emitter.on 'writeFile', ->
             emitted = true
@@ -100,9 +99,9 @@ describe 'Task', ->
     beforeEach ->
       task = Task.create({})
 
-    describe 'events', ->
+    describe 'event', ->
       describe 'processFileSet', ->
-        it 'should be emitted before processing a file set', ->
+        it 'should be emitted', ->
           emitted = false
           task.emitter.on 'processFileSet', ->
             emitted = true
@@ -116,9 +115,8 @@ describe 'Task', ->
           task.processFileSet(config, fileSet)
           expect(args).to.deep.equal([config, fileSet])
 
-
       describe 'iterateFile', ->
-        it 'should be emitted for each file in the set', ->
+        it 'should be emitted for each file in set', ->
           called = []
           task.emitter.on 'iterateFile', (config, filepath) ->
             called.push(filepath)
@@ -132,9 +130,8 @@ describe 'Task', ->
           task.processFileSet(config, fileSet)
           expect(args).to.deep.equal([config, fileSet[2]])
 
-
       describe 'filterRead', ->
-        it 'should be emitted before filtering each file in the set', ->
+        it 'should be emitted for each file in set', ->
           called = []
           task.emitter.on 'filterRead', (config, content, filepath) ->
             called.push(content)
@@ -166,7 +163,7 @@ describe 'Task', ->
       result = task.processFileSet({}, fileSet)
       expect(result).to.deep.equal [true, true, true]
 
-    it 'should pass file contents through filterRead to allow modification during iteration', ->
+    it 'should pass file contents through filterRead during iteration', ->
       task.filterRead = (config, content, filepath) ->
         'intercepted'
       result = task.processFileSet({}, fileSet)
@@ -177,9 +174,9 @@ describe 'Task', ->
     beforeEach ->
       task = Task.create({})
 
-    describe 'events', ->
+    describe 'event', ->
       describe 'processFiles', ->
-        it 'should be emitted on execution', ->
+        it 'should be emitted', ->
           emitted = false
           task.emitter.on 'processFiles', ->
             emitted = true
@@ -190,7 +187,7 @@ describe 'Task', ->
       result = task.processFiles(config)
       expect(Task.when.isPromise(result)).to.be.true
 
-    it 'should pass output through filterWrite to allow modification before writing', ->
+    it 'should pass output through filterWrite before writing', ->
       intercepted = null
       task.type = Task.FILEWRITER
       task.filterWrite = (config, content, filepath) ->
@@ -209,35 +206,66 @@ describe 'Task', ->
       result = task.processFiles(config)
       expect(Task.when.isPromise(result)).to.be.true
 
+    it 'should not be called unless task type is \'filewriter\'', ->
+      task.type = Task.FILEREADER
+      called = false;
+      task.writeFile = ->
+        called = true;
+      task.processFiles(config)
+      expect(called).to.be.false
+
   describe '#run', ->
-    describe 'events', ->
+    beforeEach ->
+      task = Task.create({})
+
+    describe 'event', ->
       describe 'setup', ->
-        it 'should be emitted before execution', ->
-          called = []
+        it 'should be emitted', ->
+          called = false
           task.emitter.on 'setup', ->
-            called.push('setupEvent')
-          task.setup = ->
-            called.push('setupMethod')
+            called = true
           task.run({})
-          expect(called).to.deep.equal(['setupEvent', 'setupMethod'])
+          expect(called).to.be.true
+
+      describe 'method', ->
+        it 'should be emitted', ->
+          called = false
+          task.emitter.on 'method', ->
+            called = true
+          task.run({})
+          expect(called).to.be.true
 
       describe 'teardown', ->
-        it 'should be emitted after task method has completed', ->
-          called = []
+        it 'should be emitted', ->
+          called = false
           task.emitter.on 'teardown', ->
-            called.push('teardownEvent')
-          task.teardown = ->
-            called.push('teardownMethod')
+            called = true
           task.run({})
-          expect(called).to.deep.equal(['teardownEvent', 'teardownMethod'])
+          expect(called).to.be.true
 
-    it 'should call #setup -> #method -> #teardown in order', ->
-      called = []
+    it 'should call #setup -> #method -> #teardown in correct order', (done) ->
+      callOrder = []
       task.setup = ->
-        called.push('setup')
+        defer = Task.defer()
+        setTimeout ->
+          callOrder.push('setup')
+          defer.resolve(true)
+        , 10
+        defer
       task.method = ->
-        called.push('method')
+        defer = Task.defer()
+        setTimeout ->
+          callOrder.push('method')
+          defer.resolve(true)
+        , 10
+        defer
       task.teardown = ->
-        called.push('teardown')
-      task.run({})
-      expect(called).to.deep.equal(['setup','method','teardown'])
+        defer = Task.defer()
+        setTimeout ->
+          callOrder.push('teardown')
+          defer.resolve(true)
+        , 100
+        defer
+      Task.when(task.run({})).then ->
+        expect(callOrder).to.deep.equal(['setup', 'method', 'teardown'])
+        done()
