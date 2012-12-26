@@ -156,17 +156,33 @@ Execute a task.  If using this package to generate a node-task compliant module,
 
 **Example:**
 ```js
+// roll your own
+var when = require('when');
 module.exports = {
   name: 'run',
   description: 'this task demonstrates what run method should do',
   version: '0.1.0',
   emitter: new (require('eventemitter2').EventEmitter2)({wildcard:true}),
+  exception: function (message) {
+    // handle exceptions
+  },
+  setup: function(config) {
+    this.emitter.emit('setup', config);
+  },
+  teardown: function(config) {
+    this.emitter.emit('teardown', config);
+  },
   run: function (config) {
-    this.emitter.emit('parseConfig', config);
-    config = this.parseConfig(config);
-    // do setup, emitting events and handling promise if completion is async
-    // do task operation here, handle promise if completion is async
-    // do teardown here, returning promise if completion is async
+    var self = this;
+    config = self._parseConfig(config);
+
+    return when(self.setup(config)).
+           then(function() {
+             return self.method(config);
+           }).
+           then(function() {
+             return self.teardown(config);
+           }, self.exception);
   }
 };
 ```
