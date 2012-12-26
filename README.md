@@ -152,7 +152,7 @@ task.run({
 ## run
 `task.run(config)`
 
-Execute a task.  If using this package, do not override (instead, see [`method`](#method-%E2%8A%84)).  If the completion of this method is asynchronous, a promise must be returned.
+Execute a task.  If using this package to generate a node-task compliant module, `run` is already defined (please use [`method`](#method-%E2%8A%84)) for custom handling).  If the completion of this method is asynchronous, a promise must be returned.
 
 **Example:**
 ```js
@@ -223,7 +223,7 @@ var task = Task.create({
 ## method &nsub;
 `task.method(config)`
 
-If using this package, but not using one of the built-in [task types](#type-%E2%8A%84), override this to perform arbitrary tasks.  If the completion of this method is asynchronous, a promise must be returned.
+If building a module using this package, but not using one of the built-in [task types](#type-%E2%8A%84), define this to perform an arbitrary task.  If the completion of this method is asynchronous, a promise must be returned.
 
 **Example:**
 ```js
@@ -319,7 +319,7 @@ var task = Task.create({
 ## filterWrite
 `task.filterWrite(config, input, filepath)`
 
-Any actions which modify the intended contents of a destination file should occur here.  The input argument will contain an array of file contents (as modified by [task.filterRead](#filterread) if applicable).  This method should reduce the array to a string and return it.  If the completion of this method is asynchronous, a promise must be returned.  A `filterWrite` event with matching arguments must be emitted before this is called (handled automatically by tasks created with this package).
+Any actions which modify the intended content of a destination file should occur here.  The input argument will contain an array of file contents (as modified by [`filterRead`](#filterread), if applicable).  This method should reduce the input array to a string and return the value to be written.  If the completion of this method is asynchronous, a promise must be returned.  A `filterWrite` event with matching arguments must be emitted before this is called (handled automatically by tasks created with this package).
 
 **Example:**
 ```js
