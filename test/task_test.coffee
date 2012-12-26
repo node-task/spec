@@ -240,6 +240,7 @@ describe 'Task', ->
           called = false
           task.emitter.on 'teardown', ->
             called = true
+          task.method = ->
           task.run({})
           expect(called).to.be.true
 
@@ -269,3 +270,7 @@ describe 'Task', ->
       Task.when(task.run({})).then ->
         expect(callOrder).to.deep.equal(['setup', 'method', 'teardown'])
         done()
+
+    it 'should throw if no task type or method is defined', ->
+
+      expect(->(task.run({}))()).to.throw(Error)
