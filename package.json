@@ -22,9 +22,10 @@
   },
   "main": "lib/task",
   "dependencies": {
+    "iconv-lite": "~0.2.7",
+    "mkdirp": "~0.3.4",
     "eventemitter2": "~0.4.11",
     "ensure-array": "~0.0.5",
-    "grunt": "~0.4.0",
     "lodash": "~1.0.0",
     "when": "~1.7.1",
     "stylus": "~0.31.0",
@@ -34,9 +35,9 @@
     "chai": "~1.4.2"
   },
   "devDependencies": {
-    "grunt": "~0.4.0",
-    "grunt-contrib-jshint": "~0.1.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-watch": "~0.2.0"
+    "grunt": "~0.4.0rc7",
+    "grunt-contrib-jshint": "~0.1.1rc6",
+    "grunt-contrib-clean": "~0.4.0rc6",
+    "grunt-contrib-watch": "~0.2.0rc7"
   }
 }

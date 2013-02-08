@@ -1,3 +1,4 @@
+fs = require('fs')
 Task = require('../lib/task')
 expect = require('chai').expect
 
@@ -40,59 +41,6 @@ describe 'Task', ->
     it 'should be an eventemitter2 instance', ->
       task = Task.create()
       expect(task.emitter.constructor).to.equal require('eventemitter2').EventEmitter2
-
-
-  describe '#readFile', ->
-    filepath = './test/fixtures/foo.txt'
-    beforeEach ->
-      task = Task.create()
-
-    describe 'event', ->
-      describe 'readFile', ->
-        it 'should be emitted', ->
-          emitted = false
-          task.emitter.on 'readFile', ->
-            emitted = true
-          task.readFile(config, filepath)
-          expect(emitted).to.be.true
-
-        it 'should emit same arguments as #readFile takes', ->
-          args = null
-          task.emitter.on 'readFile', ->
-            args = arguments
-          task.readFile(config, filepath)
-          expect(args).to.deep.equal([config, filepath])
-
-    it 'should read files', ->
-      content = task.readFile(config, filepath)
-      expect(content).to.equal 'foo'
-
-
-  describe '#writeFile', ->
-    filepath = './tmp/foo.txt'
-    input = 'whatever'
-    beforeEach ->
-      task = Task.create()
-
-    describe 'event', ->
-      describe 'writeFile', ->
-        it 'should be emitted', ->
-          emitted = false
-          task.emitter.on 'writeFile', ->
-            emitted = true
-          task.writeFile(config, input, filepath)
-          expect(emitted).to.be.true
-
-        it 'should emit same arguments as #writeFile takes', ->
-          args = null
-          task.emitter.on 'writeFile', ->
-            args = arguments
-          task.writeFile(config, input, filepath)
-          expect(args).to.deep.equal([config, input, filepath])
-
-    it 'should write files', ->
-      task.writeFile(config, 'foo', filepath)
-      expect(task.readFile(config, filepath)).to.equal('foo')
 
 
   describe '#processFileSet', ->
@@ -199,7 +147,7 @@ describe 'Task', ->
     it 'should write processed output to file', ->
       task.type = Task.FILEWRITER
       task.processFiles(config)
-      expect(task.file.read('./tmp/output.txt')).to.equal('foobarbaz')
+      expect(fs.readFileSync('./tmp/output.txt','utf8')).to.equal('foobarbaz')
 
     it 'should return a promise that represents the completion of all read/write operations', ->
       task.type = Task.FILEWRITER

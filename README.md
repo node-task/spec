@@ -166,10 +166,10 @@ module.exports = {
   exception: function (message) {
     // handle exceptions
   },
-  setup: function(config) {
+  setup: function (config) {
     this.emitter.emit('setup', config);
   },
-  teardown: function(config) {
+  teardown: function (config) {
     this.emitter.emit('teardown', config);
   },
   run: function (config) {

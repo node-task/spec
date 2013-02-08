@@ -1,6 +1,6 @@
 /*
- * task
- * http://gruntjs.com/
+ * node-task
+ * http://github.com/tkellen/node-task
  *
  * Copyright (c) 2012 Tyler Kellen, contributors
  * Licensed under the MIT license.
