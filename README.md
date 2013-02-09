@@ -373,4 +373,26 @@ var task = Task.create({
 });
 ```
 
+# node-task configuration format
+
+```js
+config = {
+  files: [
+    {
+      src: ['path/to/input/file1', 'path/to/input/file2'],
+      dest: 'path/to/dest/file1'
+    },
+    {
+      src: ['path/to/input/file1', 'path/to/input/file2'],
+      dest: 'path/to/dest/file1',
+      arbitraryKey: 'value'
+    }
+  ],
+  options: {
+    key1: 'vaule',
+    key2: 'value'
+  }
+}
+```
+
 > Copyright (c) 2013 Tyler Kellen, contributors.  See LICENSE for further details.
