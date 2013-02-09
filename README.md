@@ -375,6 +375,8 @@ var task = Task.create({
 
 # node-task configuration format
 
+**TODO:** Update previous examples to this extended format and modify node-task code to accept it.
+
 ```js
 config = {
   files: [
