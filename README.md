@@ -1,7 +1,7 @@
 # node-task
 > The specification for node-task compliant modules, including the canonical node-task generator.
 
-**WORK IN PROGRESS, FEEDBACK WELCOME**
+**WORK IN PROGRESS, FEEDBACK WELCOME** (join us in [#node-task on irc.freenode.net](irc://irc.freenode.net/#node-task))
 
 This project aims to define a stateless, promise-based API for server-side javascript tasks.  Modules which adhere to this specification should be published as stand-alone packages on [npm](http://npmjs.org).  The target for this spec includes file-based tasks, internal CLI front ends, and most exciting of all: plugins for the fantastic javascript build-tool [Grunt](http://gruntjs.com/) (coming with version 0.5+).
 
