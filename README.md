@@ -3,6 +3,10 @@
 
 **WORK IN PROGRESS, FEEDBACK WELCOME**
 
+This project aims to define a stateless, promise-based API for javascript tasks. Modules which adhere to this specification should be published as stand-alone packages on npm. The target for this spec includes file-based tasks, internal CLI front ends, and most exciting of all: plugins for the fantastic javascript build-tool Grunt (coming with version 0.5+).
+
+Eventually, it is hoped that popular JS libraries will maintain their own node-task modules (think jshint, stylus, handlebars, etc). If/when this happens, it will be trivial to pass files through an arbitrary pipeline of interactions and transformations utilizing libraries across the entire npm ecosystem.
+
 #### __≈__ denotes an __optional__ method or property
 
 # basic specification
