@@ -17,21 +17,15 @@ The following comprises the API for modules which implement the **basic** node-t
 The most minimal possible example of a compliant module:
 ```js
 var when = require('when');
-var task = module.exports = {};
-task.name = 'nothing';
-task.description = 'this task does absolutely nothing';
-task.version = '0.1.0';
-task.emitter = new (require('events').EventEmitter);
-task.options = [];
-task.run = function (config) {
-  this.emitter.emit('run', config);
+var Task = module.exports = require('events').EventEmitter;
+Task.prototype.name = 'nothing';
+Task.prototype.description = 'this task does absolutely nothing';
+Task.prototype.version = '0.1.0';
+Task.prototype.options = [];
+Task.prototype.run = function (config) {
+  this.emit('run', config);
   return when(true);
 };
-
-// basic tasks can be invoked with any configuration value required
-task.run();
-task.run(true);
-task.run({ option: true });
 ```
 
 ### name
