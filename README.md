@@ -40,9 +40,6 @@ A short description of the job the task will perform.
 ### version
 A valid [semver](http://semver.org/) string.
 
-### emitter
-An instance of a EventEmitter compatible API.
-
 ### options ≈
 An array of objects enumerating possible options and their default values.
 
@@ -61,6 +58,15 @@ task.options = [
   }
 ]
 ```
+
+### on (event, listener)
+An EventEmitter compatible on method.
+
+### off (event, listener)
+An EventEmitter compatible off method.
+
+### emit (emit, arg1, arg2, ...)
+An EventEmitter compatible emit method.
 
 ### run(config)
 Execute a task. Must emit a `run` event with `config` as the first argument before processing task operations. A promise representing the completion of the task must be returned.
