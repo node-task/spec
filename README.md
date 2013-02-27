@@ -24,7 +24,7 @@ A short description of the job the task will perform.
 A valid [semver](http://semver.org/) string.
 
 ### options ≈
-If a task allows options, they must be enumerated under this property as an array of objects with a `name`, `description` and `defaultValue` keys.
+If a task allows options, they must be enumerated under this property as an object where the key is the option name and the value is an object which contains, at a minimum, key/value pairs for `description` and `default`.  This property is primarily intended for task runner introspection, but authors are encouraged to use it for applying default values in `parseConfig`.
 
 ### on(event, listener)
 An EventEmitter compatible `on` method.  In order to allow parallel execution by task runners, this method must assign listeners to a unique instance of the task.
@@ -73,16 +73,21 @@ Task.prototype = Object.create(require('events').EventEmitter.prototype);
 Task.prototype.name = 'example';
 Task.prototype.description = 'fake task using all spec properties and methods';
 Task.prototype.version = '0.1.0';
-Task.prototype.options = [
-  { name: "debug", description: "debug mode", defaultValue: false },
-  { name: "fake", description: "a fake option", defaultValue: 1 }
-];
+Task.prototype.options = {
+  debug: {
+    description: "debug mode",
+    default: false
+  },
+  fake: {
+    description: "a fake option",
+    default: 1
+  }
+};
 Task.prototype.parseConfig = function (config) {
   this.emit('parseConfig', config);
-  var defaults = _.reduce(this.options, function(result, option) {
-    result[option.name] = option.defaultValue;
-    return result;
-  }, {});
+  var defaults = _.merge({}, this.options, function(d, o) {
+    return o.default;
+  });
   return _.extend(defaults, config);
 };
 Task.prototype.run = function (config) {
