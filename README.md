@@ -151,7 +151,7 @@ Example input:  *this format could probably be simplified*
 ]
 ```
 
-The method must return a return a promise which resolves to a new input object of the following form:
+The method must return a return a promise which resolves to an "bufferized" input object of the following form:
 ```js
 [
   {
@@ -163,7 +163,7 @@ The method must return a return a promise which resolves to a new input object o
   }
 ]
 ```
-If 'bufferized' input is provided in the task configuration up front (in the case of chaining tasks, for example), this method may be skipped.
+*If "bufferized" input is provided in the task configuration up front (in the case of chaining tasks, for example), this method may be skipped.*
 
 
 ### read(input)
