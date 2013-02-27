@@ -14,16 +14,46 @@ Eventually, it is hoped that popular JS libraries will maintain their own node-t
 
 The following comprises the API for modules which implement the **basic** node-task specification.
 
+### name ≈
+A single word name for task.
+
+### description ≈
+A short description of the job the task will perform.
+
+### version ≈
+A valid [semver](http://semver.org/) string.
+
+### options ≈
+If a task allows options, they should be enumerated under this property as an array of objects with a `name`, `description` and `default` key/value pair.
+
+### on(event, listener)
+An EventEmitter compatible `on` method.
+
+### off(event, listener)
+An EventEmitter compatible `off` method.
+
+### emit(emit, arg1, arg2, ...)
+An EventEmitter compatible `emit` method.
+
+### run(config)
+Execute a task. Must emit a `run` event with `config` as the first argument before processing task operations. A promise representing the completion of the task must be returned.
+
+### parseConfig(config) ≈
+Normalize task configuration, returning the modified config with any with any defaults from `options` applied. Before processing, must emit `parseConfig` event with the source `config` as the first argument.
+
+### setup(config) ≈
+Pre-task operations, if any, occur here. Before processing, must emit `setup` event with `config` as the first argument.
+
+### teardown(config) ≈
+Post-task operations, if any, occur here. Before processing, must emit `teardown` event with `config` as the first argument.
+
+## Examples
+
 The most minimal possible example of a compliant module:
 ```js
 var when = require('when');
-var util = require('util');
-var Task = function() {};
+var Task = function () {};
 Task.prototype = Object.create(require('events').EventEmitter.prototype);
-Task.prototype.name = 'nothing';
-Task.prototype.description = 'this task does absolutely nothing';
-Task.prototype.version = '0.1.0';
-Task.prototype.options = [];
 Task.prototype.run = function (config) {
   this.emit('run', config);
   return when(true);
@@ -32,54 +62,53 @@ Task.prototype.run = function (config) {
 module.exports = exports = Task;
 ```
 
-### name
-A single word name for task.  *Generally utilized by task runners.*
-
-### description
-A short description of the job the task will perform.
-
-### version
-A valid [semver](http://semver.org/) string.
-
-### options ≈
-An array of objects enumerating possible options and their default values.
-
-Example:
+A more comprehensive implementation:
 ```js
-task.options = [
-  {
-    name: "option1",
-    description: "Description of option 1"
-    default: false
-  },
-  {
-    name: "option2",
-    description: "description of option 2",
-    default: true
-  }
-]
+var _ = require('lodash');
+var when = require('when');
+var Task = function () {};
+Task.prototype = Object.create(require('events').EventEmitter.prototype);
+Task.prototype.name = 'example';
+Task.prototype.description = 'fake task using all spec properties and methods';
+Task.prototype.version = '0.1.0';
+Task.prototype.options = [
+  { name: "debug", description: "debug mode", defaultValue: false },
+  { name: "fake", description: "a fake option", defaultValue: 1 }
+];
+Task.prototype.parseConfig = function (config) {
+  this.emit('parseConfig', config);
+  var defaults = _.reduce(this.options, function(result, option) {
+    result[option.name] = option.defaultValue;
+    return result;
+  }, {});
+  return _.extend(defaults, config);
+};
+Task.prototype.run = function (config) {
+  var runConfig = this.parseConfig(config);
+  this.emit('setup', runConfig);
+  this.emit('run', runConfig);
+  this.emit('teardown', runConfig);
+  return when(true);
+};
+Task.prototype.setup = function (config) {
+  this.emit('debug', config);
+};
+Task.prototype.teardown = function (config) {
+  this.emit('teardown', config);
+};
+
+module.exports = exports = Task;
 ```
 
-### on (event, listener)
-An EventEmitter compatible on method.
+# logging specification
 
-### off (event, listener)
-An EventEmitter compatible off method.
+The following standard events are available for task authors and logger implementers.
 
-### emit (emit, arg1, arg2, ...)
-An EventEmitter compatible emit method.
-
-### run(config)
-Execute a task. Must emit a `run` event with `config` as the first argument before processing task operations. A promise representing the completion of the task must be returned.
-
-### parseConfig(config) ≈
-Normalize task configuration returning the modified config with any with any defaults from `options` applied. Before processing, must emit `parseConfig` event with the source `config` as the first argument.
-
-### setup(config) ≈
-Pre-task operations occur here. Before processing, must emit `setup` event with `config` as the first argument.
-
-### teardown(config) ≈
-Post-task operations occur here. Before processing, must emit `teardown` event with `config` as the first argument.
+* `debug` - Low level debug logging.
+* `info` - Verbose logging.
+* `success` - Standard logging.
+* `warn` - Non-critical error logging.
+* `error` - Critical error logging.
 
 # reader specification
 > Iterate over input, performing read-only operations.
@@ -90,5 +119,7 @@ Forthcoming.
 
 # writer specification
 > Iterate over input, performing read/write operations.
+
+Including the **reader** specification, the following comprises the API for modules which implement the node-task **writer** specification.
 
 Forthcoming.
