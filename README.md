@@ -10,7 +10,7 @@ Eventually, it is hoped that popular JS libraries will maintain their own node-t
 #### Task runners currently committed to supporting this spec:
 * [Grunt](http://gruntjs.com/)
 * [Brunch](http://brunch.io)
-* [Automotan](https://github.com/IndigoUnited/automaton)
+* [Automaton](http://indigounited.com/automaton/)
 
 # basic specification
 > Perform an arbitrary task.
@@ -156,7 +156,7 @@ Example input:  *this format could probably be simplified*
 ]
 ```
 
-The method must return a return a promise which resolves to an "bufferized" input object of the following form:
+The method must return a return a promise which resolves to n "bufferized" input object of the following form:
 ```js
 [
   {
