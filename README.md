@@ -12,7 +12,7 @@ Eventually, it is hoped that popular JS libraries will maintain their own node-t
 # basic specification
 > Perform an arbitrary task.
 
-The following comprises the API for modules which implement the **basic** node-task specification.
+Modules which implement the **basic** node-task specification must provide a constructor which can be called to create a unique instance of an object with the following API:
 
 ### name ≈
 A single word name for task.
@@ -27,13 +27,13 @@ A valid [semver](http://semver.org/) string.
 If a task allows options, they must be enumerated under this property as an array of objects with a `name`, `description` and `defaultValue` keys.
 
 ### on(event, listener)
-An EventEmitter compatible `on` method.
+An EventEmitter compatible `on` method.  In order to allow parallel execution by task-runners, this method must assign listeners to a unique instance of the task.
 
 ### off(event, listener)
-An EventEmitter compatible `off` method.
+An EventEmitter compatible `off` method.  In order to allow parallel execution by task-runners, this method must remove listeners from a unique instance of the module.
 
 ### emit(emit, arg1, arg2, ...)
-An EventEmitter compatible `emit` method.
+An EventEmitter compatible `emit` method.  Must emit events on an instance of a node-task module.
 
 ### run(config)
 Execute a task. Must emit a `run` event with `config` as the first argument before processing task operations. A promise representing the completion of the task must be returned.
