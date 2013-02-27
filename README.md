@@ -49,6 +49,8 @@ Post-task operations, if any, occur here. Before processing, must emit `teardown
 
 ## Examples
 
+Note: While the following examples meet the requirements of the **basic** spec, they should not be considered the only correct way to implement a compliant module.  Task runners will undoubtedly provide builders to facilitate the creation of tasks.
+
 The most minimal possible example of a compliant module:
 ```js
 var when = require('when');
