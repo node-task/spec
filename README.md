@@ -106,7 +106,7 @@ module.exports = exports = Task;
 
 The following standard events are available for task authors and logger implementers.
 
-* `debug` - Low level debug mode logging.
+* `debug` - Debug mode logging.
 * `info` - Verbose mode logging.
 * `log` - Standard mode logging.
 * `success` - Standard mode logging.
