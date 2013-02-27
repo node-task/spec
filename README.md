@@ -7,12 +7,17 @@ This project aims to define a stateless, promise-based, event emitting API for j
 
 Eventually, it is hoped that popular JS libraries will maintain their own node-task modules (think jshint, stylus, handlebars, etc). If/when this happens, it will be trivial to pass files through an arbitrary pipeline of interactions and transformations utilizing libraries across the entire npm ecosystem.
 
-#### __≈__ denotes an __optional__ method or property
+#### Task runners currently committed to supporting this spec:
+* [Grunt](http://gruntjs.com/)
+* [Brunch](http://brunch.io)
+* [Automotan](https://github.com/IndigoUnited/automaton)
 
 # basic specification
 > Perform an arbitrary task.
 
-Modules which implement the **basic** node-task specification must provide a constructor which can be called to create a unique instance of an object with the following API:
+Modules which implement the **basic** node-task specification must provide a constructor which can be called to create a unique instance of an object with the following API.
+
+*__≈__ denotes an __optional__ method or property.*
 
 ### name ≈
 A single word name for task.
