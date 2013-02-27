@@ -104,11 +104,12 @@ module.exports = exports = Task;
 
 The following standard events are available for task authors and logger implementers.
 
-* `debug` - Low level debug logging.
-* `info` - Verbose logging.
-* `success` - Standard logging.
-* `warn` - Non-critical error logging.
-* `error` - Critical error logging.
+* `debug` - Low level debug mode logging.
+* `info` - Verbose mode logging.
+* `log` - Standard mode logging.
+* `success` - Standard mode logging.
+* `warn` - Standard mode non-critical error logging.
+* `error` - Standard mode critical error logging.
 
 # reader specification
 > Iterate over input, performing read-only operations.
