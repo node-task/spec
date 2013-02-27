@@ -142,7 +142,7 @@ The type of content the task should read.  Task runners should abort if a pipeli
 ### bufferize(config)
 Iterate over input defined in configuration, reading each into a buffer.  Before processing, must emit `bufferize` event with `config` as the first argument.  Sources may be specified in any form (files, urls, etc) under the `input` key of `config`.  They should be stored as an array of objects with, at minimum, a `src` key holding an array of inputs.
 
-Example input:
+Example input:  *this format could probably be simplified*
 ```js
 [
   { src: ['path/to/file1','path/to/file2'] },
