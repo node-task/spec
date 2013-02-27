@@ -54,30 +54,32 @@ Post-task operations, if any, occur here. Before processing, must emit `teardown
 A minimal compliant module:
 ```js
 var when = require('when');
-var EventEmitter = require('events').EventEmitter;
-var Task = function () {
-  EventEmitter.call(this);
-};
-util.inherits(Task, EventEmitter);
-Task.prototype.run = function (config) {
-  this.emit('run', config);
-  return when(true);
-};
-
-module.exports = exports = Task;
-```
-
-A more comprehensive implementation:
-```js
-var _ = require('lodash');
-var when = require('when');
-
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
 var Task = function Task() {
   EventEmitter.call(this);
-}
+};
+util.inherits(Task, EventEmitter);
+
+Task.prototype.run = function (config) {
+  this.emit('run', config);
+  return when(true);
+};
+
+module.exports = Task;
+```
+
+A more comprehensive implementation:
+```js
+var when = require('when');
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
+var _ = require('lodash');
+
+var Task = function Task() {
+  EventEmitter.call(this);
+};
 util.inherits(Task, EventEmitter);
 
 Task.prototype.name = 'example';
