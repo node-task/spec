@@ -24,7 +24,7 @@ A short description of the job the task will perform.
 A valid [semver](http://semver.org/) string.
 
 ### options ≈
-If a task allows options, they should be enumerated under this property as an array of objects with a `name`, `description` and `default` key/value pair.
+If a task allows options, they must be enumerated under this property as an array of objects with a `name`, `description` and `defaultValue` keys.
 
 ### on(event, listener)
 An EventEmitter compatible `on` method.
