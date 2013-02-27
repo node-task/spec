@@ -49,7 +49,7 @@ Post-task operations, if any, occur here. Before processing, must emit `teardown
 
 ## Examples
 
-*Note: While the following examples meet the requirements of the **basic** spec, they should not be considered the only correct way to implement a compliant module.  Task runners will undoubtedly provide builders to facilitate the creation of tasks.*
+*Note: While the following examples meet the requirements of the __basic__ spec, they should not be considered the only correct way to implement a compliant module.  Task runners will undoubtedly provide builders to facilitate the creation of tasks.*
 
 A minimal a compliant module:
 ```js
