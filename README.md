@@ -167,21 +167,23 @@ var FileBuffer = module.exports = function (encoding) {
   this.source = null;
   this.buffer = null;
 };
+
 FileBuffer.prototype.load = function (source) {
   var self = this;
   this.source = path.resolve(source);
   this.buffer = fs.readFileSync(this.source);
-  return when(buffer).then(function() {
+  return when(this.buffer).then(function() {
     return self;
-  }
+  });
 };
+
 FileBuffer.prototype.read = function (encoding) {
-  if(!encoding) {
+  if(!encoding || this.buffer === null) {
     return this.buffer;
   } else {
-    return this.buffer.toString(encoding)
+    return this.buffer.toString(encoding);
   }
-}
+};
 
 var FileBuffer = require('./lib/filebuffer');
 var buffer = new FileBuffer('utf8');
