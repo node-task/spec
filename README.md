@@ -196,7 +196,7 @@ buffer.load('README.md').then(function(file) {
 });
 ```
 
-The above example is implemented in the npm package [filebuffer](http://github.com/tkellen/node-filebuffer).
+The above example is implemented in the npm package [filebuffer](http://github.com/node-task/node-filebuffer).
 
 # reader specification
 > Iterate over input, performing read-only operations.
