@@ -190,7 +190,6 @@ module.exports = FileBuffer;
 
 Sample usage:
 ```js
-var FileBuffer = require('./lib/filebuffer');
 var buffer = new FileBuffer('utf8');
 buffer.load('README.md').then(function(file) {
   console.log('The contents of '+file.source+' are:\n'+file.read());
