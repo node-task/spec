@@ -135,6 +135,63 @@ The following standard events are available for task authors and logger implemen
 * `warn` - Standard mode non-critical error logging.
 * `error` - Standard mode critical error logging.
 
+
+# input buffer specification
+> An enhanced buffer interface for piping data between tasks.
+
+An object with the following properties and methods must be used to represent source data for node-task compliant modules to operate on.
+
+### source
+A string indicating the absolute source of the input (e.g. filepath, url, etc).
+
+### encoding
+A string indicating the encoding of the input (e.g. utf8, ascii, etc).
+
+### buffer
+The underlying [buffer](http://nodejs.org/api/buffer.html).
+
+### load(source)
+Load an input source into `buffer` and return a promise which resolves to the parent object.
+
+### read(encoding)
+Return the underlying buffer, or, if an encoding is available, its string value.
+
+A minimally compliant class for constructing input objects:
+```js
+var path = require('path');
+var fs = require('fs');
+var when = require('when');
+
+var FileBuffer = module.exports = function (encoding) {
+  this.encoding = encoding;
+  this.source = null;
+  this.buffer = null;
+};
+FileBuffer.prototype.load = function (source) {
+  var self = this;
+  this.source = path.resolve(source);
+  this.buffer = fs.readFileSync(this.source);
+  return when(buffer).then(function() {
+    return self;
+  }
+};
+FileBuffer.prototype.read = function (encoding) {
+  if(!encoding) {
+    return this.buffer;
+  } else {
+    return this.buffer.toString(encoding)
+  }
+}
+
+var FileBuffer = require('./lib/filebuffer');
+var buffer = new FileBuffer('utf8');
+buffer.load('README.md').then(function(file) {
+  console.log('The contents of '+file.source+' are:\n'+file.read());
+});
+```
+
+The above example is implemented in the npm package [filebuffer](http://github.com/tkellen/node-filebuffer).
+
 # reader specification
 > Iterate over input, performing read-only operations.
 
