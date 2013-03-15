@@ -162,7 +162,7 @@ var path = require('path');
 var fs = require('fs');
 var when = require('when');
 
-var FileBuffer = module.exports = function (encoding) {
+var FileBuffer = function (encoding) {
   this.encoding = encoding;
   this.source = null;
   this.buffer = null;
@@ -185,6 +185,11 @@ FileBuffer.prototype.read = function (encoding) {
   }
 };
 
+module.exports = FileBuffer;
+```
+
+Sample usage:
+```js
 var FileBuffer = require('./lib/filebuffer');
 var buffer = new FileBuffer('utf8');
 buffer.load('README.md').then(function(file) {
