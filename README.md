@@ -160,7 +160,7 @@ A minimally compliant class for constructing input objects:
 ```js
 var path = require('path');
 var fs = require('fs');
-var when = require('when');
+var nodefn = require('when/node/function');
 
 var FileBuffer = function (encoding) {
   this.encoding = encoding;
@@ -171,8 +171,8 @@ var FileBuffer = function (encoding) {
 FileBuffer.prototype.load = function (source) {
   var self = this;
   this.source = path.resolve(source);
-  this.buffer = fs.readFileSync(this.source);
-  return when(this.buffer).then(function() {
+  return nodefn.call(fs.readFile, this.source).then(function(buffer) {
+    self.buffer = buffer;
     return self;
   });
 };
