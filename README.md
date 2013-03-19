@@ -136,8 +136,8 @@ The following standard events are available for task authors and logger implemen
 * `error` - Standard mode critical error logging.
 
 
-# input buffer specification
-> An enhanced buffer interface for piping data between tasks.
+# buffer specification
+> A buffer interface for piping data between tasks.
 
 An object with the following properties and methods must be used to represent source data for node-task compliant modules to operate on.
 
