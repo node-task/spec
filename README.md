@@ -142,7 +142,7 @@ The following standard events are available for task authors and logger implemen
 An object with the following properties and methods must be used to represent source data for node-task compliant modules to operate on.
 
 ### source
-A string indicating the absolute source of the input (e.g. filepath, url, etc).
+A string indicating the source of the input (e.g. filepath, url, etc).
 
 ### encoding
 A string indicating the encoding of the input (e.g. utf8, ascii, etc).
@@ -170,7 +170,7 @@ var FileBuffer = function (encoding) {
 
 FileBuffer.prototype.load = function (source) {
   var self = this;
-  this.source = path.resolve(source);
+  this.source = source;
   return nodefn.call(fs.readFile, this.source).then(function(buffer) {
     self.buffer = buffer;
     return self;
