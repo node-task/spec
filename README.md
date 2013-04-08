@@ -142,59 +142,25 @@ The following standard events are available for task authors and logger implemen
 An object with the following properties and methods must be used to represent source data for node-task compliant modules to operate on.
 
 ### source
-A string indicating the source of the input (e.g. filepath, url, etc).
+An identifier for the buffer's source path, url, object, etc.
 
 ### encoding
-A string indicating the encoding of the input (e.g. utf8, ascii, etc).
+The buffer's encoding type.
 
-### buffer
-The underlying [buffer](http://nodejs.org/api/buffer.html).
+### content(input)
+Fill buffer synchronously and return self for chaining.  Input may be a Buffer or a string which is valid for the instance's encoding type.
 
-### load(source)
-Load an input source into `buffer` and return a promise which resolves to the parent object.
+### toString(encoding)
+Return a string value for buffer.  If encoding is not specified, `encoding` must be used.
 
-### read(encoding)
-Return the underlying buffer, or, if an encoding is available, its string value.
+### pipe(method)
+Pass a clone of the buffer interface into method for processing and return a promise which resolves to the return value of said method.
 
-A minimally compliant class for constructing input objects:
-```js
-var path = require('path');
-var fs = require('fs');
-var nodefn = require('when/node/function');
+### read()
+Read contents of source into buffer and return promise which resolves to self.
 
-var FileBuffer = function (encoding) {
-  this.encoding = encoding;
-  this.source = null;
-  this.buffer = null;
-};
-
-FileBuffer.prototype.load = function (source) {
-  var self = this;
-  this.source = source;
-  return nodefn.call(fs.readFile, this.source).then(function(buffer) {
-    self.buffer = buffer;
-    return self;
-  });
-};
-
-FileBuffer.prototype.read = function (encoding) {
-  if(!encoding || this.buffer === null) {
-    return this.buffer;
-  } else {
-    return this.buffer.toString(encoding);
-  }
-};
-
-module.exports = FileBuffer;
-```
-
-Sample usage:
-```js
-var buffer = new FileBuffer('utf8');
-buffer.load('README.md').then(function(file) {
-  console.log('The contents of '+file.source+' are:\n'+file.read());
-});
-```
+### write()
+Write the contents of source to destination and return promise which resolves to self.
 
 The above example is implemented in the npm package [filebuffer](http://github.com/node-task/filebuffer).
 
