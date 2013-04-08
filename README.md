@@ -142,7 +142,7 @@ The following standard events are available for task authors and logger implemen
 An object with the following properties and methods must be used to represent source data for node-task compliant modules to operate on.
 
 ### source
-An identifier for the buffer's source path, url, object, etc.
+An identifier for the buffer's source.  Can be file path, url, object, etc.
 
 ### encoding
 The buffer's encoding type.
