@@ -139,7 +139,7 @@ The following standard events are available for task authors and logger implemen
 # buffer interface specification
 > A buffer interface for piping data between tasks.
 
-For tasks which operate on files, each input should be loaded using a node-task compliant buffer.  A valid interface is a [Node.js Buffer](http://nodejs.org/api/buffer.html) instance with the following additional APIs.  *Please see [node-datapipe], [node-filebuffer] & [node-s3buffer] for actual implementations.*
+For tasks which operate on files, each input should be loaded using a node-task compliant buffer.  A valid interface is a [Node.js Buffer] instance with the following additional APIs.  *Please see [node-datapipe], [node-filebuffer] & [node-s3buffer] for actual implementations.*
 
 ### source
 An property identifying the buffer's source: filepath, url, object, etc.
@@ -162,6 +162,7 @@ Write contents of buffer to source and return a promise which resolves to self. 
 ### pipe(method)
 Load data into buffer (if not already loaded) and process it with `method`, yielding a promise which resolves to `methods`'s return value.
 
+[Node.js Buffer]: http://nodejs.org/api/buffer.html
 [node-datapipe]: https://github.com/node-task/datapipe/blob/master/lib/datapipe.js
 [node-filebuffer]: https://github.com/node-task/filebuffer/blob/master/lib/filebuffer.js
 [node-s3buffer]: https://github.com/node-task/s3buffer/blob/master/lib/s3buffer.js
