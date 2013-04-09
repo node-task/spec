@@ -136,44 +136,32 @@ The following standard events are available for task authors and logger implemen
 * `error` - Standard mode critical error logging.
 
 
-# buffer specification
+# buffer interface specification
 > A buffer interface for piping data between tasks.
 
-An object with the following properties and methods must be used to represent source data for node-task compliant modules to operate on.
+For tasks which operate on files, each input should be loaded using a node-task compliant buffer.  A valid interface is a [Node.js Buffer](http://nodejs.org/api/buffer.html) instance with the following additional APIs.  *Please see [node-datapipe], [node-filebuffer] & [node-s3buffer] for actual implementations.*
 
 ### source
-An identifier for the buffer's source.  Can be file path, url, object, etc.
+An property identifying the buffer's source: filepath, url, object, etc.
 
 ### encoding
-The buffer's encoding type.
+String property containing buffer's encoding.
+
+### clone()
+Return a clone of the instance.
 
 ### content(input)
-Fill buffer synchronously and return self for chaining.  Input may be a Buffer or a string which is valid for the instance's encoding type.
+Fill buffer synchronously and return self for chaining.  Input may be any Buffer, or a string which is valid for the instance's encoding.
 
-### toString(encoding)
-Return a string value for buffer.  If encoding is not specified, `encoding` must be used.
+### load(opts)
+Read contents of source into buffer and return a promise which resolves to self.  If any additional parameters are required for loading (i.e. providing a s3 client), they can be passed in via opts.  If the buffer already contains data this should immediately return a promise which resolves to self.  This is a noop until extended (see [node-filebuffer] and [node-s3buffer] for examples).
+
+### save(opts)
+Write contents of buffer to source and return a promise which resolves to self.  If any additional parameters are required for saving (i.e. providing a s3 client, acl settings, etc), they can be passed via opts.  This is a noop until extended (see [node-filebuffer] and [node-s3buffer] for examples).
 
 ### pipe(method)
-Pass a clone of the buffer interface into method for processing and return a promise which resolves to the return value of said method.
+Load data into buffer (if not already loaded) and process it with `method`, yielding a promise which resolves to `methods`'s return value.
 
-### read()
-Read contents of source into buffer and return promise which resolves to self.
-
-### write()
-Write the contents of source to destination and return promise which resolves to self.
-
-The above example is implemented in the npm package [filebuffer](http://github.com/node-task/filebuffer).
-
-# reader specification
-> Iterate over input, performing read-only operations.
-
-Including the **basic** specification, the following comprises the API for modules which implement the node-task **reader** specification.
-
-Forthcoming.
-
-# writer specification
-> Iterate over input, performing read/write operations.
-
-Including the **reader** specification, the following comprises the API for modules which implement the node-task **writer** specification.
-
-Forthcoming.
+[node-datapipe]: https://github.com/node-task/datapipe/blob/master/lib/datapipe.js
+[node-filebuffer]: https://github.com/node-task/filebuffer/blob/master/lib/filebuffer.js
+[node-s3buffer]: https://github.com/node-task/s3buffer/blob/master/lib/s3buffer.js
