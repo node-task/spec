@@ -44,7 +44,7 @@ An EventEmitter compatible `emit` method.  In order to allow parallel execution 
 Execute a task. Must emit a `run` event with `config` as the first argument before processing task operations. A promise representing the completion of the task must be returned.
 
 ### parseConfig(config) ≈
-Normalize task configuration, returning the modified config with any with any defaults from `options` applied. Before processing, must emit `parseConfig` event with the source `config` as the first argument.
+Normalize task configuration, returning the modified config with any with any defaults from `options` applied. Before processing, must emit `parseConfig` event with the source `config` as the first argument.  **This method must be synchronous.**
 
 ### setup(config) ≈
 Pre-task operations, if any, occur here. Before processing, must emit `setup` event with `config` as the first argument.
